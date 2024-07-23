@@ -1,0 +1,13 @@
+@mixin flex-center-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin btn-color {
+  background-color: rgb(70, 42, 171);
+}
+:root {
+  --blue: rgb(70, 42, 171);
+}

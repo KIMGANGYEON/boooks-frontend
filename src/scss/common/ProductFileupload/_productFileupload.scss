@@ -1,0 +1,25 @@
+.product-fileupload {
+  margin-bottom: 25px;
+  > div:first-child {
+    display: flex;
+    flex-grow: 1;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    min-width: 300px;
+    min-height: 300px;
+    border: 1px solid black;
+  }
+  p {
+    margin-top: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  img {
+    width: 300px;
+    height: 300px;
+  }
+}

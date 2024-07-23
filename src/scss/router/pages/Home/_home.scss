@@ -1,0 +1,44 @@
+@import "../../../common/mxixin";
+
+.home {
+  > div:first-child {
+    text-align: center;
+    h2 {
+      margin-top: 50px;
+      font-size: 40px;
+      font-weight: bold;
+    }
+  }
+  .filter-box {
+    display: flex;
+    justify-content: space-around;
+  }
+  .search-box {
+    display: flex;
+    justify-content: end;
+  }
+
+  .button-box {
+    display: flex;
+    justify-content: center;
+    button {
+      border: none;
+      padding: 20px 40px;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      &:hover {
+        background-color: var(--blue);
+        color: white;
+      }
+    }
+  }
+  .carditem-box {
+    padding: 0px 50px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+}
