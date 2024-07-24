@@ -67,3 +67,40 @@ export const edittUser = createAsyncThunk(
     }
   }
 );
+
+export const addToCart = createAsyncThunk(
+  "user/addToCart",
+  async (body, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post("users/cart", body);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data || error.message);
+    }
+  }
+);
+
+export const getCartItems = createAsyncThunk(
+  "user/getCartItems",
+  async ({ cartItemIds, userCart }, thunkAPI) => {
+    try {
+      const response = await axiosInstance.get(
+        `/product/${cartItemIds}?type=array`
+      );
+
+      userCart.forEach((cartItem) => {
+        response.data.forEach((productDetail, index) => {
+          if (cartItem.id === productDetail._id) {
+            response.data[index].quantity = cartItem.quantity;
+          }
+        });
+      });
+
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error.response.data || error.message);
+    }
+  }
+);

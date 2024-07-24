@@ -16,7 +16,13 @@ const CheckBox = ({ category, checkedCategory, onFilters }) => {
     <div>
       {category?.map((category) => (
         <div key={category._id}>
-          <input type="checkbox" onChange={handleToggle(category._id)} />{" "}
+          <input
+            type="checkbox"
+            onChange={() => handleToggle(category._id)}
+            checked={
+              checkedCategory.indexOf(category._id) === -1 ? false : true
+            }
+          />{" "}
           <label>{category.name}</label>
         </div>
       ))}

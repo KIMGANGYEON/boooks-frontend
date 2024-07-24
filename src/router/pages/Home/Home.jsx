@@ -4,10 +4,11 @@ import Radiobox from "./Sections/Radiobox";
 import SearchInput from "./Sections/SearchInput";
 import CardItem from "./Sections/CardItem";
 import axiosInstance from "../../../utils/axios";
-import { category } from "../../../utils/filterData";
+import { category, prices } from "../../../utils/filterData";
 
 const Home = () => {
   const limit = 4;
+  const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(false);
@@ -53,6 +54,7 @@ const Home = () => {
       limit,
       loadMore: true,
       filters,
+      searchTerm,
     };
     fetchProducts(body);
     setSkip(skip + limit);
@@ -60,11 +62,24 @@ const Home = () => {
 
   const handleFilters = (newFilteredData, category) => {
     const newFilters = { ...filters };
-    console.log(category);
     newFilters[category] = newFilteredData;
-
+    if (category === "price") {
+      const priceValues = handlePrice(newFilteredData);
+      newFilters[category] = priceValues;
+    }
     showFilteredResults(newFilters);
     setFilters(newFilters);
+  };
+
+  const handlePrice = (value) => {
+    let array = [];
+
+    for (let key in prices) {
+      if (prices[key]._id === parseInt(value, 10)) {
+        array = prices[key].array;
+      }
+    }
+    return array;
   };
 
   const showFilteredResults = (filters) => {
@@ -72,9 +87,22 @@ const Home = () => {
       skip: 0,
       limit,
       filters,
+      searchTerm,
     };
     fetchProducts(body);
     setSkip(0);
+  };
+
+  const handleSearchTerm = (event) => {
+    const body = {
+      skip: 0,
+      limit,
+      filters,
+      searchTerm: event.target.value,
+    };
+    setSkip(0);
+    setSearchTerm(event.target.value);
+    fetchProducts(body);
   };
 
   return (
@@ -92,12 +120,16 @@ const Home = () => {
           />
         </div>
         <div>
-          <Radiobox />
+          <Radiobox
+            prices={prices}
+            checkedPrice={filters.price}
+            onFilters={(filters) => handleFilters(filters, "price")}
+          />
         </div>
       </div>
 
       <div className="search-box">
-        <SearchInput />
+        <SearchInput searchTerm={searchTerm} onSearch={handleSearchTerm} />
       </div>
 
       <div className="carditem-box">
